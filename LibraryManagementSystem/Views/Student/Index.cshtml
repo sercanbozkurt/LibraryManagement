@@ -1,0 +1,110 @@
+@model IEnumerable<Student>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2>Öğrenci Listesi</h2>
+                    <a asp-controller="Student" asp-action="Create" class="btn btn-info">Yeni ekle</a>
+                    
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;">ID</th>
+                                <th>Öğrenci Adı</th>
+                                <th>Öğrenci Soyadı</th>
+                                <th>Email</th>
+                                <th>Telefon</th>
+                                <th>Durum</th>
+                                <th style="width: 150px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.StudentID)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.StudentName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.StudentSurname)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                                    <td>
+                                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.StudentID"
+                                            class="btn btn-warning btn-sm">
+                                            Detay
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm delete-btn" data-id="@item.StudentID"
+                                            data-name="@item.StudentName" data-surname="@item.StudentSurname">
+                                            Sil
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); // Sayfanın yenilenmesini engelle
+
+                    let studentId = this.getAttribute("data-id");
+                    let studentName = this.getAttribute("data-name");
+                    let studentSurname = this.getAttribute("data-surname");
+
+                    Swal.fire({
+                        title: `<b>'${studentName} ${studentSurname}' </b>`,
+                        text: "kişisini silmek istediğinize emin misiniz?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Evet, sil!",
+                        cancelButtonText: "Hayır, vazgeç!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('/Student/Delete', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: `id=${studentId}`
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire({
+                                            title: "Silindi!",
+                                            text: "Öğrenci başarıyla silindi.",
+                                            icon: "success"
+                                        }).then(() => {
+                                            location.reload(); // Sayfayı yenile
+                                        });
+                                    } else {
+                                        Swal.fire("Hata!", "Silme işlemi gerçekleştirilemedi.", "error");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Silme hatası:", error);
+                                    Swal.fire("Hata!", "Bir hata oluştu.", "error");
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

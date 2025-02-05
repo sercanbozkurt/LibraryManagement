@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="row justify-content-center">
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-danger  mb-1"># TOPLAM KİTAP
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ToplamKitapSayisi</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book-atlas fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-success  mb-1"># TOPLAM AKTİF KİTAP
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ToplamAktifKitapSayisi</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-book-atlas fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-1">
+                        <div class=" text-warning  mb-1"># TOPLAM ÖĞRENCİ
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ToplamOgrenciSayisi</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-primary  mb-1"># TOPLAM AKTİF ÖĞRENCİ
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ToplamAktifOgrenciSayisi</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-3x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h5 class="m-0 font-weight-bold text-info text-center">ÖĞRENCİ SIRALAMASI</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-striped" id="" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Öğrenci Ad Soyad</th>
+                                <th># Okuduğu Kitap</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ogrenci in ViewBag.OgrenciSiralamasi)
+                            {
+                                <tr>
+                                    <td>@ogrenci.AdSoyad</td>
+                                    <td>@ogrenci.KitapSayisi</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 text-center">
+                <h5 class="m-0 font-weight-bold text-info">KİTAP SIRALAMASI</h5>
+            </div>
+            <div class="card-body" style="width: 100%">
+
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-striped" id="" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Kitap Bilgisi</th>
+                                <th># Okuyan Öğrenci</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var kitap in ViewBag.KitapSiralamasi)
+                            {
+                                <tr>
+                                    <td>@kitap.KitapBilgi</td>
+                                    <td>@kitap.OgrenciSayisi</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

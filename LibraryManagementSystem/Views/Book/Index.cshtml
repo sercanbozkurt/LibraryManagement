@@ -1,0 +1,111 @@
+@model IEnumerable<Book>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2>Kitap Listesi</h2>
+                    <a asp-controller="Book" asp-action="Create" class="btn btn-info">Yeni ekle</a>
+
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 30px;">ID</th>
+                                <th>Kitap Adı</th>
+                                <th>Yazar</th>
+                                <th>Kategori</th>
+                                <th>Yayın Yılı</th>
+                                <th>Durum</th>
+                                <th style="width: 150px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.BookID)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.BookName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PublicationYear)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                                    <td>
+                                        <a asp-controller="Book" asp-action="Edit" asp-route-id="@item.BookID"
+                                            class="btn btn-warning btn-sm">
+                                            Detay
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-sm delete-btn" data-id="@item.BookID"
+                                            data-name="@item.BookName" data-surname="@item.Author">
+                                            Sil
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".delete-btn").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); // Sayfanın yenilenmesini engelle
+
+                    let bookId = this.getAttribute("data-id");
+                    let bookName = this.getAttribute("data-name");
+                    let author = this.getAttribute("data-surname");
+
+                    Swal.fire({
+                        title: `<b>'${bookName} (${author})' </b>`,
+                        text: "kitabını silmek istediğinize emin misiniz?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Evet, sil!",
+                        cancelButtonText: "Hayır, vazgeç!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('/Book/Delete', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                body: `id=${bookId}`
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        Swal.fire({
+                                            title: "Silindi!",
+                                            text: "Kitap başarıyla silindi.",
+                                            icon: "success"
+                                        }).then(() => {
+                                            location.reload(); // Sayfayı yenile
+                                        });
+                                    } else {
+                                        Swal.fire("Hata!", "Silme işlemi gerçekleştirilemedi.", "error");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Silme hatası:", error);
+                                    Swal.fire("Hata!", "Bir hata oluştu.", "error");
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,49 @@
+@model Reservation
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2>Rezervasyon Düzenle</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" asp-controller="Reservation" method="post">
+                        <input type="hidden" asp-for="ReservationID">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="StudentID" class="form-label">Öğrenci</label>
+                                    <select asp-for="StudentID" name="StudentID" asp-items="ViewBag.Students"
+                                        class="form-select">
+                                        <option value="">Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="BookID" class="form-label">Kitap</label>
+                                    <select asp-for="BookID" name="BookID" asp-items="ViewBag.Books"
+                                        class="form-select">
+                                        <option value="">Seçiniz</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input asp-for="Registration" type="hidden">
+
+                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                        <a asp-controller="Reservation" asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

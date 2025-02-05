@@ -1,0 +1,72 @@
+@model Book
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2>Kitap Ekle</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" asp-controller="Book" method="post">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Kitap Adı</label>
+                                    <input asp-for="BookName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Yazar</label>
+                                    <input asp-for="Author" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Kategori</label>
+                                    <input asp-for="Category" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Yayın Yılı</label>
+                                    <input asp-for="PublicationYear" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Kayıt Tarihi</label>
+                                    <input asp-for="Registration" class="form-control" type="datetime-local" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" >
+                                </div>    
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label">Durum(Aktif/Pasif)</label>
+                                <div class="form-check form-switch ps-5">
+                                    <input asp-for="IsActive" class="form-check-input" type="checkbox" role="switch"
+                                        checked>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <button class="btn btn-primary" type="submit">Kaydet</button>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
